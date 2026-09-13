@@ -1,0 +1,63 @@
+<a routerLink="/" class="back">← Home</a>
+
+@if (challenge$ | async; as challenge) {
+  @if (challenge) {
+    <section class="challenge">
+      <p class="tier">Tier {{ challenge.tier }}</p>
+      <h1>{{ challenge.title }}</h1>
+      <p class="prompt">{{ challenge.prompt }}</p>
+      <p class="goal"><strong>Goal:</strong> {{ challenge.goal }}</p>
+
+      <label class="field">
+        <span>Your curl command</span>
+        <textarea
+          [(ngModel)]="command"
+          rows="4"
+          placeholder="curl -s https://your-app.vercel.app/api/hello"
+        ></textarea>
+      </label>
+
+      <div class="actions">
+        <button
+          type="button"
+          class="primary"
+          (click)="submit(challenge.id, challenge.targetPath, challenge.expectedMethod, challenge.requiredHeaders)"
+        >
+          Run
+        </button>
+        <button
+          type="button"
+          class="ghost"
+          (click)="showHint(challenge.id, challenge.hints)"
+          [disabled]="hintIndex >= challenge.hints.length"
+        >
+          Hint
+        </button>
+      </div>
+
+      @if (visibleHints(challenge.hints).length) {
+        <div class="hints">
+          @for (hint of visibleHints(challenge.hints); track hint) {
+            <p>{{ hint }}</p>
+          }
+        </div>
+      }
+
+      @if (feedback) {
+        <p class="feedback" [class.ok]="feedback.includes('complete')">{{ feedback }}</p>
+      }
+
+      @if (responsePreview) {
+        <pre class="response">{{ responsePreview }}</pre>
+      }
+
+      @if (feedback.includes('complete')) {
+        @if (nextId(challenge.id); as next) {
+          <a class="primary next" [routerLink]="['/challenge', next]">Next challenge →</a>
+        }
+      }
+    </section>
+  } @else {
+    <p>Challenge not found.</p>
+  }
+}

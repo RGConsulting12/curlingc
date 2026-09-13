@@ -1,0 +1,56 @@
+@if (activeProfile$ | async; as profile) {
+  <section class="hero">
+    <p class="eyebrow">curl command lab</p>
+    <h1>Curling</h1>
+    <p class="lede">
+      Learn curl from trivial GETs to headers, auth, and beyond. Progress stays on this device.
+    </p>
+    <a class="primary" [routerLink]="['/challenge', profile.progress.currentChallengeId]">
+      Continue as {{ profile.displayName }}
+    </a>
+  </section>
+
+  <section class="panel">
+    <h2>Profiles</h2>
+    <div class="profile-row">
+      @for (item of profiles$ | async; track item.id) {
+        <button
+          type="button"
+          class="chip"
+          [class.active]="item.id === profile.id"
+          (click)="switchProfile(item.id)"
+        >
+          {{ item.displayName }}
+        </button>
+      }
+      <button type="button" class="chip ghost" (click)="createProfile('Guest')">+ New profile</button>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>Levels</h2>
+    <div class="level-grid">
+      @for (level of levels; track level.id) {
+        <article class="level-card">
+          <div class="level-head">
+            <span class="emoji">{{ level.emoji }}</span>
+            <div>
+              <h3>{{ level.title }}</h3>
+              <p>{{ level.description }}</p>
+            </div>
+          </div>
+          <ul>
+            @for (challenge of level.challenges; track challenge.id) {
+              <li>
+                <a [routerLink]="['/challenge', challenge.id]">{{ challenge.title }}</a>
+                @if (isCompleted(profile, challenge.id)) {
+                  <span class="done">done</span>
+                }
+              </li>
+            }
+          </ul>
+        </article>
+      }
+    </div>
+  </section>
+}

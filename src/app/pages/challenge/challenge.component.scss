@@ -1,0 +1,97 @@
+.back {
+  color: #94a3b8;
+  text-decoration: none;
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+.challenge {
+  max-width: 48rem;
+}
+
+.tier {
+  color: #7dd3fc;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.75rem;
+}
+
+.prompt,
+.goal {
+  color: #cbd5e1;
+  line-height: 1.6;
+}
+
+.field {
+  display: grid;
+  gap: 0.5rem;
+  margin: 1.25rem 0;
+}
+
+textarea {
+  width: 100%;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  background: #0f172a;
+  color: #e2e8f0;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  border-radius: 0.75rem;
+  padding: 0.85rem;
+  resize: vertical;
+}
+
+.actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.primary,
+.ghost {
+  border-radius: 999px;
+  padding: 0.7rem 1.1rem;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.primary {
+  background: linear-gradient(135deg, #38bdf8, #2563eb);
+  color: #0f172a;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.ghost {
+  background: transparent;
+  border: 1px dashed rgba(148, 163, 184, 0.5);
+  color: #e2e8f0;
+}
+
+.hints {
+  margin-top: 1rem;
+  padding: 0.85rem 1rem;
+  border-left: 3px solid #38bdf8;
+  background: rgba(15, 23, 42, 0.7);
+}
+
+.feedback {
+  margin-top: 1rem;
+  color: #fca5a5;
+}
+
+.feedback.ok {
+  color: #86efac;
+}
+
+.response {
+  margin-top: 1rem;
+  padding: 1rem;
+  overflow: auto;
+  background: #020617;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  color: #cbd5e1;
+}
+
+.next {
+  margin-top: 1rem;
+}
