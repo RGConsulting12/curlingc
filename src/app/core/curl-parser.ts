@@ -1,3 +1,5 @@
+import { normalizeCurlQuotes } from './normalize-curl-input';
+
 export type ParsedCurl = {
   method: string;
   url: string;
@@ -58,7 +60,7 @@ const VALUE_FLAGS = new Set([
 ]);
 
 export function parseCurlCommand(input: string): ParsedCurl | null {
-  const tokens = tokenize(input.trim());
+  const tokens = tokenize(normalizeCurlQuotes(input).trim());
   if (!tokens.length || tokens[0]!.toLowerCase() !== 'curl') {
     return null;
   }

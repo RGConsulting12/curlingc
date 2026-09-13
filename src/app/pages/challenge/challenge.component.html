@@ -12,10 +12,22 @@
         <span>Your curl command</span>
         <p class="base-url">Base URL: <code>{{ labBaseUrl }}</code></p>
         <textarea
-          [(ngModel)]="command"
+          [ngModel]="command"
+          (ngModelChange)="updateCommand($event)"
           rows="4"
           [placeholder]="commandPlaceholder"
+          autocapitalize="off"
+          autocomplete="off"
+          autocorrect="off"
+          spellcheck="false"
         ></textarea>
+        <p class="input-note">
+          Curly “smart quotes” from phone keyboards are auto-corrected to straight
+          <code>"</code> and <code>'</code> quotes.
+        </p>
+        @if (quotesAutoFixed) {
+          <p class="input-note fixed">Quotes were straightened for you.</p>
+        }
       </label>
 
       <div class="actions">

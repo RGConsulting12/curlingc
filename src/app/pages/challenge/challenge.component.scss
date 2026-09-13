@@ -35,9 +35,21 @@
 }
 
 .base-url code,
-.help-base code {
+.help-base code,
+.input-note code {
   color: #7dd3fc;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.input-note {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+.input-note.fixed {
+  color: #86efac;
 }
 
 textarea {

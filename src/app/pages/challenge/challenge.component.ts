@@ -6,6 +6,7 @@ import { map } from 'rxjs';
 import { ChallengeRunnerService } from '../../core/challenge-runner.service';
 import { getChallenge, nextChallenge, tierLabel } from '../../core/curriculum';
 import { labApiUrl, LAB_BASE_URL } from '../../core/lab-url';
+import { normalizeCurlQuotes } from '../../core/normalize-curl-input';
 import { Challenge } from '../../core/models';
 import { ProfileService } from '../../core/profile.service';
 
@@ -25,6 +26,7 @@ export class ChallengeComponent implements OnInit {
   responsePreview = '';
   hintIndex = 0;
   showHelp = false;
+  quotesAutoFixed = false;
 
   readonly challenge$ = this.route.paramMap.pipe(
     map((params) => getChallenge(params.get('id') ?? '')),
@@ -41,6 +43,7 @@ export class ChallengeComponent implements OnInit {
       .subscribe((id) => {
         this.hintIndex = 0;
         this.showHelp = false;
+        this.quotesAutoFixed = false;
         this.feedback = '';
         this.responsePreview = '';
         if (id) {
@@ -62,6 +65,12 @@ export class ChallengeComponent implements OnInit {
 
   visibleHints(hints: string[]): string[] {
     return hints.slice(0, this.hintIndex);
+  }
+
+  updateCommand(value: string): void {
+    const normalized = normalizeCurlQuotes(value);
+    this.quotesAutoFixed = normalized !== value;
+    this.command = normalized;
   }
 
   async submit(challenge: Challenge): Promise<void> {
