@@ -67,6 +67,9 @@ h1 {
 .level-grid {
   display: grid;
   gap: 1rem;
+  max-height: 32rem;
+  overflow: auto;
+  padding-right: 0.25rem;
 }
 
 .level-card {

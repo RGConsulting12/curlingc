@@ -1,7 +1,7 @@
 import { AsyncPipe } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { levels } from '../../core/curriculum';
+import { allChallenges, levels } from '../../core/curriculum';
 import { ProfileService } from '../../core/profile.service';
 
 @Component({
@@ -14,6 +14,7 @@ export class HomeComponent implements OnInit {
   private readonly profiles = inject(ProfileService);
 
   readonly levels = levels;
+  readonly totalChallenges = allChallenges.length;
   readonly activeProfile$ = this.profiles.activeProfile$;
   readonly profiles$ = this.profiles.profiles$;
 

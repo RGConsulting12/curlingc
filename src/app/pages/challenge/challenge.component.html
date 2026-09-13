@@ -3,7 +3,7 @@
 @if (challenge$ | async; as challenge) {
   @if (challenge) {
     <section class="challenge">
-      <p class="tier">Tier {{ challenge.tier }}</p>
+      <p class="tier">Tier {{ challenge.tier }} · {{ tierLabel(challenge.tier) }}</p>
       <h1>{{ challenge.title }}</h1>
       <p class="prompt">{{ challenge.prompt }}</p>
       <p class="goal"><strong>Goal:</strong> {{ challenge.goal }}</p>
@@ -21,7 +21,7 @@
         <button
           type="button"
           class="primary"
-          (click)="submit(challenge.id, challenge.targetPath, challenge.expectedMethod, challenge.requiredHeaders)"
+          (click)="submit(challenge)"
         >
           Run
         </button>

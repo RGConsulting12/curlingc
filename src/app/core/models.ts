@@ -1,16 +1,26 @@
-export type ChallengeTier = 1 | 2 | 3 | 4 | 5;
+export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'HEAD' | 'OPTIONS';
 
 export type Challenge = {
   id: string;
-  tier: ChallengeTier;
+  tier: number;
   title: string;
   prompt: string;
   goal: string;
   hints: string[];
-  /** Paths relative to the mock API base (e.g. /api/hello). */
   targetPath: string;
-  expectedMethod: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
+  expectedMethod: HttpMethod;
   requiredHeaders?: Record<string, string>;
+  queryParams?: Record<string, string>;
+  bodyIncludes?: string[];
+  bodyJson?: Record<string, unknown>;
+  basicAuth?: { user: string; pass: string };
+  bearerToken?: string;
+  apiKey?: string;
+  cookies?: Record<string, string>;
+  requiredFlags?: string[];
+  flagValues?: Record<string, string>;
+  expectStatus?: number;
+  multipartFields?: Record<string, string>;
 };
 
 export type Level = {

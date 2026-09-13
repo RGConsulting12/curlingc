@@ -1,11 +1,11 @@
 import { AsyncPipe } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { map } from 'rxjs';
-import { getChallenge, nextChallenge } from '../../core/curriculum';
-import { parseCurlCommand, pathFromUrl } from '../../core/curl-parser';
+import { ChallengeRunnerService } from '../../core/challenge-runner.service';
+import { getChallenge, nextChallenge, tierLabel } from '../../core/curriculum';
+import { Challenge } from '../../core/models';
 import { ProfileService } from '../../core/profile.service';
 
 @Component({
@@ -16,7 +16,7 @@ import { ProfileService } from '../../core/profile.service';
 })
 export class ChallengeComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
-  private readonly http = inject(HttpClient);
+  private readonly runner = inject(ChallengeRunnerService);
   private readonly profiles = inject(ProfileService);
 
   command = '';
@@ -28,12 +28,16 @@ export class ChallengeComponent implements OnInit {
     map((params) => getChallenge(params.get('id') ?? '')),
   );
   readonly activeProfile$ = this.profiles.activeProfile$;
+  readonly tierLabel = tierLabel;
 
   ngOnInit(): void {
     this.profiles.ensureProfile();
     this.route.paramMap
       .pipe(map((params) => params.get('id') ?? ''))
       .subscribe((id) => {
+        this.hintIndex = 0;
+        this.feedback = '';
+        this.responsePreview = '';
         if (id) {
           this.profiles.setCurrentChallenge(id);
         }
@@ -51,79 +55,29 @@ export class ChallengeComponent implements OnInit {
     return hints.slice(0, this.hintIndex);
   }
 
-  submit(
-    challengeId: string,
-    targetPath: string,
-    expectedMethod: string,
-    requiredHeaders?: Record<string, string>,
-  ): void {
-    this.profiles.recordAttempt(challengeId);
+  async submit(challenge: Challenge): Promise<void> {
+    this.profiles.recordAttempt(challenge.id);
     this.feedback = '';
     this.responsePreview = '';
 
-    const parsed = parseCurlCommand(this.command);
-    if (!parsed) {
-      this.feedback = 'Could not parse that command. Start with curl and a URL.';
+    const validation = this.runner.validate(this.command, challenge);
+    if (!validation.ok) {
+      this.feedback = validation.message;
       return;
     }
 
-    const path = pathFromUrl(parsed.url);
-    if (!path) {
-      this.feedback = 'URL looks invalid.';
+    const result = await this.runner.execute(validation.parsed, challenge);
+    if (result.preview) {
+      this.responsePreview = result.preview;
+    }
+
+    if (result.ok) {
+      this.feedback = 'Nice curl. Challenge complete.';
+      this.profiles.completeChallenge(challenge.id);
       return;
     }
 
-    if (parsed.method !== expectedMethod) {
-      this.feedback = `Expected HTTP ${expectedMethod}, got ${parsed.method}.`;
-      return;
-    }
-
-    if (path !== targetPath) {
-      this.feedback = `Expected path ${targetPath}, got ${path}.`;
-      return;
-    }
-
-    if (requiredHeaders) {
-      for (const [name, expected] of Object.entries(requiredHeaders)) {
-        const actual = parsed.headers[name.toLowerCase()];
-        if (!actual || !actual.includes(expected)) {
-          this.feedback = `Missing or incorrect header: ${name}`;
-          return;
-        }
-      }
-    }
-
-    const headers: Record<string, string> = {};
-    for (const [key, value] of Object.entries(parsed.headers)) {
-      headers[key] = value;
-    }
-
-    this.http
-      .request(parsed.method, targetPath, {
-        headers,
-        responseType: 'text',
-        observe: 'response',
-      })
-      .subscribe({
-        next: (response) => {
-          this.responsePreview = [
-            `HTTP/${response.status} ${response.statusText}`,
-            ...Object.entries(response.headers).map(([k, v]) => `${k}: ${v}`),
-            '',
-            response.body ?? '',
-          ].join('\n');
-
-          if (response.ok) {
-            this.feedback = 'Nice curl. Challenge complete.';
-            this.profiles.completeChallenge(challengeId);
-          } else {
-            this.feedback = `Request reached the server but status was ${response.status}.`;
-          }
-        },
-        error: () => {
-          this.feedback = 'Request failed. Check the path and try again.';
-        },
-      });
+    this.feedback = result.message;
   }
 
   nextId(challengeId: string): string | null {
