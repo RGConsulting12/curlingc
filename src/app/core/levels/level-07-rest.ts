@@ -1,6 +1,6 @@
-import { Challenge } from '../models';
+import { ChallengeDefinition } from '../models';
 
-export const level07Challenges: Challenge[] = [
+export const level07Challenges: ChallengeDefinition[] = [
   {
     id: 'put-item-01',
     tier: 4,

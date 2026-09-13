@@ -1,6 +1,6 @@
-import { Challenge } from '../models';
+import { ChallengeDefinition } from '../models';
 
-export const level18Challenges: Challenge[] = [
+export const level18Challenges: ChallengeDefinition[] = [
   {
     id: 'debug-verbose-01',
     tier: 10,

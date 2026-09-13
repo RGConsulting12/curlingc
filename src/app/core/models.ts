@@ -1,6 +1,14 @@
 export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'HEAD' | 'OPTIONS';
 
-export type Challenge = {
+export type ChallengeHelp = {
+  explanation: string;
+  example: string;
+  commentary: string;
+  docUrl: string;
+  docLabel: string;
+};
+
+export type ChallengeDefinition = {
   id: string;
   tier: number;
   title: string;
@@ -23,13 +31,17 @@ export type Challenge = {
   multipartFields?: Record<string, string>;
 };
 
+export type Challenge = ChallengeDefinition & {
+  help: ChallengeHelp;
+};
+
 export type Level = {
   id: string;
   title: string;
   ribbonTitle: string;
   description: string;
   emoji: string;
-  challenges: Challenge[];
+  challenges: ChallengeDefinition[];
 };
 
 export type ProfileProgress = {

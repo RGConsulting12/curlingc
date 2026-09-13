@@ -1,3 +1,4 @@
+import { attachHelp } from './challenge-help';
 import { Challenge, Level } from './models';
 import { level01Challenges } from './levels/level-01-get';
 import { level02Challenges } from './levels/level-02-headers';
@@ -183,7 +184,9 @@ export const levels: Level[] = [
   },
 ];
 
-export const allChallenges: Challenge[] = levels.flatMap((level) => level.challenges);
+export const allChallenges: Challenge[] = levels
+  .flatMap((level) => level.challenges)
+  .map(attachHelp);
 
 export function getLevel(id: string): Level {
   return levels.find((level) => level.id === id) ?? levels[0]!;

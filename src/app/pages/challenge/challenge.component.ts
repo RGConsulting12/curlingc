@@ -23,6 +23,7 @@ export class ChallengeComponent implements OnInit {
   feedback = '';
   responsePreview = '';
   hintIndex = 0;
+  showHelp = false;
 
   readonly challenge$ = this.route.paramMap.pipe(
     map((params) => getChallenge(params.get('id') ?? '')),
@@ -36,6 +37,7 @@ export class ChallengeComponent implements OnInit {
       .pipe(map((params) => params.get('id') ?? ''))
       .subscribe((id) => {
         this.hintIndex = 0;
+        this.showHelp = false;
         this.feedback = '';
         this.responsePreview = '';
         if (id) {
@@ -49,6 +51,10 @@ export class ChallengeComponent implements OnInit {
       this.profiles.useHint(challengeId);
       this.hintIndex += 1;
     }
+  }
+
+  toggleHelp(): void {
+    this.showHelp = !this.showHelp;
   }
 
   visibleHints(hints: string[]): string[] {

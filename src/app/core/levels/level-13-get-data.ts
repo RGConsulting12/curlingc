@@ -1,6 +1,6 @@
-import { Challenge } from '../models';
+import { ChallengeDefinition } from '../models';
 
-export const level13Challenges: Challenge[] = [
+export const level13Challenges: ChallengeDefinition[] = [
   {
     id: 'get-data-urlencode-01',
     tier: 7,

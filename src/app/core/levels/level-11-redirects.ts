@@ -1,6 +1,6 @@
-import { Challenge } from '../models';
+import { ChallengeDefinition } from '../models';
 
-export const level11Challenges: Challenge[] = [
+export const level11Challenges: ChallengeDefinition[] = [
   {
     id: 'redirect-follow-01',
     tier: 6,

@@ -33,6 +33,13 @@
         >
           Hint
         </button>
+        <button
+          type="button"
+          class="ghost"
+          (click)="toggleHelp()"
+        >
+          Help
+        </button>
       </div>
 
       @if (visibleHints(challenge.hints).length) {
@@ -40,6 +47,26 @@
           @for (hint of visibleHints(challenge.hints); track hint) {
             <p>{{ hint }}</p>
           }
+        </div>
+      }
+
+      @if (showHelp && challenge.help) {
+        <div class="help">
+          <h2>How to solve this</h2>
+          <p class="help-explanation">{{ challenge.help.explanation }}</p>
+          <div class="help-example">
+            <span class="help-label">Example command</span>
+            <pre>{{ challenge.help.example }}</pre>
+          </div>
+          <p class="help-commentary">{{ challenge.help.commentary }}</p>
+          <a
+            class="help-doc"
+            [href]="challenge.help.docUrl"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {{ challenge.help.docLabel }} ↗
+          </a>
         </div>
       }
 

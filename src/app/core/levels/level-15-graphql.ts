@@ -1,6 +1,6 @@
-import { Challenge } from '../models';
+import { ChallengeDefinition } from '../models';
 
-export const level15Challenges: Challenge[] = [
+export const level15Challenges: ChallengeDefinition[] = [
   {
     id: 'graphql-query-01',
     tier: 8,

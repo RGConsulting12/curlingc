@@ -1,6 +1,6 @@
-import { Challenge } from '../models';
+import { ChallengeDefinition } from '../models';
 
-export const level20Challenges: Challenge[] = [
+export const level20Challenges: ChallengeDefinition[] = [
   {
     id: 'boss-webhook-01',
     tier: 10,

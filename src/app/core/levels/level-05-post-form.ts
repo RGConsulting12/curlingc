@@ -1,6 +1,6 @@
-import { Challenge } from '../models';
+import { ChallengeDefinition } from '../models';
 
-export const level05Challenges: Challenge[] = [
+export const level05Challenges: ChallengeDefinition[] = [
   {
     id: 'post-login-01',
     tier: 3,

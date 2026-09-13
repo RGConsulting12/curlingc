@@ -1,6 +1,6 @@
-import { Challenge } from '../models';
+import { ChallengeDefinition } from '../models';
 
-export const level12Challenges: Challenge[] = [
+export const level12Challenges: ChallengeDefinition[] = [
   {
     id: 'meta-user-agent-01',
     tier: 7,

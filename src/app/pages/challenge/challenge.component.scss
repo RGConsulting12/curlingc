@@ -73,6 +73,66 @@ textarea {
   background: rgba(15, 23, 42, 0.7);
 }
 
+.help {
+  margin-top: 1rem;
+  padding: 1rem 1.1rem;
+  border-left: 3px solid #a78bfa;
+  background: rgba(15, 23, 42, 0.85);
+  border-radius: 0 0.75rem 0.75rem 0;
+}
+
+.help h2 {
+  margin: 0 0 0.75rem;
+  font-size: 0.95rem;
+  color: #c4b5fd;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.help-explanation,
+.help-commentary {
+  color: #cbd5e1;
+  line-height: 1.65;
+  margin: 0 0 1rem;
+}
+
+.help-example {
+  margin-bottom: 1rem;
+}
+
+.help-label {
+  display: block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #94a3b8;
+  margin-bottom: 0.4rem;
+}
+
+.help-example pre {
+  margin: 0;
+  padding: 0.85rem;
+  overflow: auto;
+  background: #020617;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  color: #86efac;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.85rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.help-doc {
+  color: #7dd3fc;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.help-doc:hover {
+  text-decoration: underline;
+}
+
 .feedback {
   margin-top: 1rem;
   color: #fca5a5;

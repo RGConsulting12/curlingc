@@ -1,6 +1,6 @@
-import { Challenge } from '../models';
+import { ChallengeDefinition } from '../models';
 
-export const level14Challenges: Challenge[] = [
+export const level14Challenges: ChallengeDefinition[] = [
   {
     id: 'multipart-upload-01',
     tier: 8,

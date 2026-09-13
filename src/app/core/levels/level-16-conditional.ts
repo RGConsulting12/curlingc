@@ -1,6 +1,6 @@
-import { Challenge } from '../models';
+import { ChallengeDefinition } from '../models';
 
-export const level16Challenges: Challenge[] = [
+export const level16Challenges: ChallengeDefinition[] = [
   {
     id: 'conditional-etag-01',
     tier: 9,

@@ -1,6 +1,6 @@
-import { Challenge } from '../models';
+import { ChallengeDefinition } from '../models';
 
-export const level10Challenges: Challenge[] = [
+export const level10Challenges: ChallengeDefinition[] = [
   {
     id: 'cookie-session-01',
     tier: 6,

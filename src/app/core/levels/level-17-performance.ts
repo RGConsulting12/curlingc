@@ -1,6 +1,6 @@
-import { Challenge } from '../models';
+import { ChallengeDefinition } from '../models';
 
-export const level17Challenges: Challenge[] = [
+export const level17Challenges: ChallengeDefinition[] = [
   {
     id: 'perf-max-time-01',
     tier: 9,
