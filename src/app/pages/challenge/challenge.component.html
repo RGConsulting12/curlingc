@@ -10,10 +10,11 @@
 
       <label class="field">
         <span>Your curl command</span>
+        <p class="base-url">Base URL: <code>{{ labBaseUrl }}</code></p>
         <textarea
           [(ngModel)]="command"
           rows="4"
-          placeholder="curl -s https://your-app.vercel.app/api/hello"
+          [placeholder]="commandPlaceholder"
         ></textarea>
       </label>
 
@@ -53,6 +54,7 @@
       @if (showHelp && challenge.help) {
         <div class="help">
           <h2>How to solve this</h2>
+          <p class="help-base">Use this base URL in your commands: <code>{{ labBaseUrl }}</code></p>
           <p class="help-explanation">{{ challenge.help.explanation }}</p>
           <div class="help-example">
             <span class="help-label">Example command</span>

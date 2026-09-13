@@ -5,6 +5,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { map } from 'rxjs';
 import { ChallengeRunnerService } from '../../core/challenge-runner.service';
 import { getChallenge, nextChallenge, tierLabel } from '../../core/curriculum';
+import { labApiUrl, LAB_BASE_URL } from '../../core/lab-url';
 import { Challenge } from '../../core/models';
 import { ProfileService } from '../../core/profile.service';
 
@@ -30,6 +31,8 @@ export class ChallengeComponent implements OnInit {
   );
   readonly activeProfile$ = this.profiles.activeProfile$;
   readonly tierLabel = tierLabel;
+  readonly labBaseUrl = LAB_BASE_URL;
+  readonly commandPlaceholder = `curl -s ${labApiUrl('/api/hello')}`;
 
   ngOnInit(): void {
     this.profiles.ensureProfile();
