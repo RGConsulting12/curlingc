@@ -1,0 +1,106 @@
+import { ChallengeDefinition } from '../models';
+
+export const cliNetworkChallenges: ChallengeDefinition[] = [
+  {
+    id: 'cli-ping-01',
+    kind: 'shell',
+    category: 'networking',
+    tier: 3,
+    title: 'ICMP latency with ping',
+    prompt: 'Measure basic network latency to portal-a with three packets.',
+    goal: 'Run ping -c 3 portal-a.example.com and read the rtt min/avg/max/mdev summary.',
+    hints: [
+      'ping uses ICMP — it tests reachability and round-trip time.',
+      'Linux summary looks like: rtt min/avg/max/mdev = ...',
+    ],
+    shell: {
+      commandIncludes: ['ping', '-c', '3'],
+      expectedStdoutContains: [
+        'portal-a.example.com',
+        'rtt min/avg/max/mdev = 31.2/35.6/41.1',
+      ],
+      validationMode: 'contains',
+    },
+  },
+  {
+    id: 'cli-curl-timing-01',
+    kind: 'shell',
+    category: 'networking',
+    tier: 4,
+    title: 'HTTP timing with curl',
+    prompt: 'Measure HTTP status and total response time (not the same as ping).',
+    goal: 'curl -o /dev/null -s -w \'%{http_code},%{time_total}\\n\' https://portal-a.example.com',
+    hints: [
+      '-w write-out prints metrics after the transfer.',
+      'Slow HTTP with normal ping often means an application/server issue.',
+    ],
+    shell: {
+      commandIncludes: ['curl', '-w'],
+      expectedStdout: '200,0.182',
+      validationMode: 'exact',
+    },
+  },
+  {
+    id: 'cli-dig-01',
+    kind: 'shell',
+    category: 'networking',
+    tier: 3,
+    title: 'DNS lookup with dig',
+    prompt: 'Resolve portal-a.example.com to an IP address.',
+    goal: 'Run dig portal-a.example.com and find the A record.',
+    hints: ['dig queries DNS directly.', 'Look for the ANSWER SECTION.'],
+    shell: {
+      commandIncludes: ['dig'],
+      expectedStdoutContains: ['ANSWER SECTION', '10.0.0.5'],
+      validationMode: 'contains',
+    },
+  },
+  {
+    id: 'cli-traceroute-01',
+    kind: 'shell',
+    category: 'networking',
+    tier: 4,
+    title: 'Path discovery',
+    prompt: 'See which hops a packet takes toward portal-a.',
+    goal: 'Run traceroute portal-a.example.com (or tracepath).',
+    hints: ['Each line is a router along the path.', 'Useful when ping works but latency spikes.'],
+    shell: {
+      commandIncludes: ['portal-a.example.com'],
+      expectedStdoutContains: ['traceroute to portal-a.example.com', 'gateway.lab'],
+      validationMode: 'contains',
+    },
+  },
+  {
+    id: 'cli-nslookup-01',
+    kind: 'shell',
+    category: 'networking',
+    tier: 3,
+    title: 'DNS with nslookup',
+    prompt: 'Alternative DNS lookup for portal-b.example.com.',
+    goal: 'Run nslookup portal-b.example.com.',
+    hints: ['nslookup is older but still common on constrained systems.', 'Compare with dig for the same host.'],
+    shell: {
+      commandIncludes: ['nslookup'],
+      expectedStdoutContains: ['portal-b.example.com', 'Address:'],
+      validationMode: 'contains',
+    },
+  },
+  {
+    id: 'cli-network-compare-01',
+    kind: 'shell',
+    category: 'networking',
+    tier: 5,
+    title: 'Ping vs HTTP',
+    prompt: 'Find portal-a rows where HTTP latency exceeds 200ms while ping is under 50ms.',
+    goal: 'grep portal-a latency.csv | awk -F, \'$4 < 50 && $6 > 200 {print $1,$6,$7}\'',
+    hints: [
+      'ICMP ping avg is field 4; http_ms is field 6.',
+      'This pattern suggests application slowness, not raw network loss.',
+    ],
+    shell: {
+      commandIncludes: ['grep', 'awk'],
+      expectedStdoutContains: ['2026-09-27T11:00:00', '420', '503'],
+      validationMode: 'contains',
+    },
+  },
+];

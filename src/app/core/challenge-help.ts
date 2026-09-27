@@ -1,4 +1,5 @@
-import { ChallengeHelp } from './models';
+import { ChallengeHelp, ChallengeDefinition } from './models';
+import { shellChallengeHelp } from './shell-challenge-help';
 import { labApiUrl } from './lab-url';
 
 /** Full explanations for every challenge, aligned with official curl documentation. */
@@ -401,8 +402,8 @@ export const challengeHelp: Record<string, ChallengeHelp> = {
   },
 };
 
-export function attachHelp<T extends { id: string }>(challenge: T): T & { help: ChallengeHelp } {
-  const help = challengeHelp[challenge.id];
+export function attachHelp<T extends ChallengeDefinition>(challenge: T): T & { help: ChallengeHelp } {
+  const help = challengeHelp[challenge.id] ?? shellChallengeHelp[challenge.id];
   if (!help) {
     throw new Error(`Missing help content for challenge: ${challenge.id}`);
   }

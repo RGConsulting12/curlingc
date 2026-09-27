@@ -1,0 +1,17 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "outDir": "./.test-out",
+    "rootDir": "./src",
+    "declaration": false,
+    "experimentalDecorators": true
+  },
+  "include": [
+    "src/app/core/**/*.ts"
+  ],
+  "exclude": [
+    "src/app/core/**/*.spec.ts"
+  ]
+}

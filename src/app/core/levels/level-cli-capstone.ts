@@ -1,0 +1,86 @@
+import { ChallengeDefinition } from '../models';
+
+export const cliCapstoneChallenges: ChallengeDefinition[] = [
+  {
+    id: 'cli-capstone-01',
+    kind: 'shell',
+    category: 'challenges',
+    tier: 6,
+    title: 'Read the endpoint list',
+    prompt: 'Start building a latency monitor: list the URLs you will probe.',
+    goal: 'cat endpoints.txt',
+    hints: ['Every monitor starts with a list of targets.', 'This file lives in /home/lab.'],
+    shell: {
+      commandIncludes: ['cat', 'endpoints.txt'],
+      expectedStdoutContains: ['portal-a.example.com', 'portal-b.example.com', 'portal-c.example.com'],
+      validationMode: 'contains',
+    },
+  },
+  {
+    id: 'cli-capstone-02',
+    kind: 'shell',
+    category: 'challenges',
+    tier: 6,
+    title: 'Probe with ping',
+    prompt: 'Take three ICMP samples from portal-b.',
+    goal: 'ping -c 3 portal-b.example.com',
+    hints: ['Parse min/avg/max from the summary line.', 'You would append avg to a CSV in a real script.'],
+    shell: {
+      commandIncludes: ['ping', '-c', '3', 'portal-b'],
+      expectedStdoutContains: ['rtt min/avg/max/mdev = 42.1/48.7/55.2'],
+      validationMode: 'contains',
+    },
+  },
+  {
+    id: 'cli-capstone-03',
+    kind: 'shell',
+    category: 'challenges',
+    tier: 6,
+    title: 'Probe with curl',
+    prompt: 'Capture HTTP status and total time for portal-c.',
+    goal: 'curl -o /dev/null -s -w \'%{http_code},%{time_total}\\n\' https://portal-c.example.com',
+    hints: ['Compare this with ping — they measure different layers.', 'A CSV row might store both values.'],
+    shell: {
+      commandIncludes: ['curl', '-w', 'portal-c'],
+      expectedStdout: '200,0.310',
+      validationMode: 'exact',
+    },
+  },
+  {
+    id: 'cli-capstone-04',
+    kind: 'shell',
+    category: 'challenges',
+    tier: 7,
+    title: 'Analyze rolling history',
+    prompt: 'Which endpoint has the highest average HTTP latency?',
+    goal: 'tail -n +2 latency.csv | awk -F, \'{a[$2]+=$6; c[$2]++} END {for (e in a) print e, a[e]/c[e]}\' | sort -k2 -n | tail -n 1',
+    hints: [
+      'Aggregate by endpoint in awk.',
+      'sort -k2 -n sorts by the second field numerically.',
+    ],
+    shell: {
+      commandIncludes: ['awk', 'sort'],
+      expectedStdout: 'portal-c 314',
+      validationMode: 'exact',
+    },
+  },
+  {
+    id: 'cli-capstone-05',
+    kind: 'shell',
+    category: 'challenges',
+    tier: 7,
+    title: 'Build a Linux Latency Monitor',
+    prompt: 'Capstone: identify degraded portal-a samples (http_ms > 200).',
+    goal: 'grep portal-a latency.csv | awk -F, \'$6 > 200 {print $1,$6,$7}\'',
+    hints: [
+      'Workflow: endpoints → ping → curl → append CSV → awk/grep analysis.',
+      'A Bash loop could automate this without Python or Node.',
+    ],
+    shell: {
+      commandIncludes: ['grep', 'awk', 'portal-a'],
+      showPipeline: true,
+      expectedStdoutContains: ['2026-09-27T11:00:00', '420', '503'],
+      validationMode: 'contains',
+    },
+  },
+];

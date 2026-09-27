@@ -1,0 +1,99 @@
+.redirection {
+  border-left: 3px solid #fbbf24;
+  background: rgba(15, 23, 42, 0.85);
+  border-radius: 0 0.75rem 0.75rem 0;
+  padding: 1rem 1.1rem;
+}
+
+.redirection.compact h2 {
+  font-size: 0.95rem;
+}
+
+.redirection h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1rem;
+  color: #fcd34d;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.intro {
+  margin: 0 0 1rem;
+  color: #cbd5e1;
+  line-height: 1.65;
+}
+
+.example {
+  border-top: 1px solid rgba(148, 163, 184, 0.15);
+  padding-top: 1rem;
+  margin-top: 1rem;
+}
+
+.example:first-of-type {
+  border-top: none;
+  padding-top: 0;
+  margin-top: 0;
+}
+
+.example h3 {
+  margin: 0 0 0.35rem;
+  color: #fde68a;
+  font-size: 0.95rem;
+}
+
+.situation {
+  margin: 0 0 0.75rem;
+  color: #94a3b8;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.block {
+  margin-bottom: 0.75rem;
+}
+
+.block.lab {
+  margin-bottom: 0;
+}
+
+.label {
+  display: block;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #94a3b8;
+  margin-bottom: 0.35rem;
+}
+
+.command,
+.flow {
+  margin: 0 0 0.5rem;
+  padding: 0.75rem;
+  overflow: auto;
+  background: #020617;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.8rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.command {
+  color: #86efac;
+}
+
+.flow {
+  color: #7dd3fc;
+}
+
+.detail {
+  margin: 0;
+  color: #cbd5e1;
+  line-height: 1.6;
+  font-size: 0.9rem;
+}
+
+.block.lab .detail {
+  color: #a5f3fc;
+}

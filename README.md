@@ -1,22 +1,23 @@
 # Curling
 
-A progressive curl command lab — **44 challenges** across **20 levels**, from your first GET to expert incident-response combos.
+A progressive Linux CLI learning lab — **80 challenges** across **curl**, **files**, **grep/awk pipelines**, **network diagnostics**, and a **latency monitor capstone**. Commands run in a **safe browser-side simulator** (no real shell on Vercel).
 
 Progress is saved **locally** in your browser so you can pick up where you left off.
 
 ## Curriculum
 
-| Levels | Topic |
-|--------|--------|
-| 1–2 | GET, headers |
-| 3–4 | Query strings, `-s`, `-I` |
-| 5–7 | Form POST, JSON, PUT/PATCH/DELETE |
-| 8–10 | Basic auth, bearer/API keys, cookies |
-| 11–13 | Redirects (`-L`), User-Agent/Referer, `-G` |
-| 14–15 | Multipart (`-F`), GraphQL |
-| 16–17 | ETags, ranges, timeouts, compression, retries |
-| 18–19 | `-v`, `-w`, `-o`, OPTIONS, proxy (`-x`) |
-| 20 | Expert boss levels (multi-step combos) |
+| Track | Topic |
+|-------|--------|
+| **Curl** (20 levels) | GET, headers, auth, redirects, GraphQL, boss combos |
+| **Files** | cat, head, tail, less, wc, cut |
+| **Search** | grep, find |
+| **Text Processing** | sort, uniq, sed, awk |
+| **Pipelines** | Unix `\|` composition on `latency.csv` / `latency.log` |
+| **Networking** | ping, curl timing, dig, traceroute, ICMP vs HTTP |
+| **System** | ps, df, du, free, ssh, scp (simulated) |
+| **Challenges** | Build a Linux Latency Monitor capstone |
+
+Simulated dataset: `latency.csv` with ping and HTTP measurements for portal-a/b/c.
 
 ## Local
 
@@ -31,6 +32,12 @@ UI-only (no API):
 
 ```bash
 npm start
+```
+
+Unit tests (simulator/parser — no browser required):
+
+```bash
+npm run test:unit
 ```
 
 ## Deploy on Vercel

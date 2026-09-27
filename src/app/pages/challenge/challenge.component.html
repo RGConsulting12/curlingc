@@ -3,30 +3,45 @@
 @if (challenge$ | async; as challenge) {
   @if (challenge) {
     <section class="challenge">
-      <p class="tier">Tier {{ challenge.tier }} · {{ tierLabel(challenge.tier) }}</p>
+      <p class="tier">
+        {{ categoryLabels[challenge.category] }} · Tier {{ challenge.tier }} · {{ tierLabel(challenge.tier) }}
+      </p>
       <h1>{{ challenge.title }}</h1>
       <p class="prompt">{{ challenge.prompt }}</p>
       <p class="goal"><strong>Goal:</strong> {{ challenge.goal }}</p>
 
       <label class="field">
-        <span>Your curl command</span>
-        <p class="base-url">Base URL: <code>{{ labBaseUrl }}</code></p>
+        <span>{{ commandLabel(challenge) }}</span>
+        @if (!isShell(challenge)) {
+          <p class="base-url">Base URL: <code>{{ labBaseUrl }}</code></p>
+        } @else {
+          <p class="base-url">Simulated shell at <code>/home/lab</code> with <code>latency.csv</code>, <code>latency.log</code>, and <code>endpoints.txt</code>.</p>
+        }
         <textarea
           [ngModel]="command"
-          (ngModelChange)="updateCommand($event)"
+          (ngModelChange)="updateCommand($event, challenge)"
           rows="4"
-          [placeholder]="commandPlaceholder"
+          [placeholder]="commandPlaceholder(challenge)"
           autocapitalize="off"
           autocomplete="off"
           autocorrect="off"
           spellcheck="false"
         ></textarea>
-        <p class="input-note">
-          Curly “smart quotes” from phone keyboards are auto-corrected to straight
-          <code>"</code> and <code>'</code> quotes.
-        </p>
-        @if (quotesAutoFixed) {
-          <p class="input-note fixed">Quotes were straightened for you.</p>
+        @if (!isShell(challenge)) {
+          <p class="input-note">
+            Curly “smart quotes” from phone keyboards are auto-corrected to straight
+            <code>"</code> and <code>'</code> quotes.
+          </p>
+          @if (quotesAutoFixed) {
+            <p class="input-note fixed">Quotes were straightened for you.</p>
+          }
+        } @else {
+          <p class="input-note">
+            Pipes work here; redirection (<code>&gt;</code>, <code>&lt;</code>, <code>2&gt;&amp;1</code>) is read-only —
+            <button type="button" class="text-link" (click)="toggleRedirection()">
+              {{ showRedirection ? 'hide redirection examples' : 'read redirection examples' }}
+            </button>.
+          </p>
         }
       </label>
 
@@ -53,7 +68,20 @@
         >
           Help
         </button>
+        @if (isShell(challenge)) {
+          <button
+            type="button"
+            class="ghost"
+            (click)="toggleRedirection()"
+          >
+            {{ showRedirection ? 'Hide redirection' : 'Redirection examples' }}
+          </button>
+        }
       </div>
+
+      @if (isShell(challenge) && showRedirection) {
+        <app-redirection-walkthrough [compact]="true" />
+      }
 
       @if (visibleHints(challenge.hints).length) {
         <div class="hints">
@@ -66,7 +94,11 @@
       @if (showHelp && challenge.help) {
         <div class="help">
           <h2>How to solve this</h2>
-          <p class="help-base">Use this base URL in your commands: <code>{{ labBaseUrl }}</code></p>
+          @if (!isShell(challenge)) {
+            <p class="help-base">Use this base URL in your commands: <code>{{ labBaseUrl }}</code></p>
+          } @else {
+            <p class="help-base">Work from <code>/home/lab</code> unless a challenge says otherwise.</p>
+          }
           <p class="help-explanation">{{ challenge.help.explanation }}</p>
           <div class="help-example">
             <span class="help-label">Example command</span>
@@ -85,14 +117,38 @@
       }
 
       @if (feedback) {
-        <p class="feedback" [class.ok]="feedback.includes('complete')">{{ feedback }}</p>
+        <p class="feedback" [class.ok]="isComplete(feedback)">{{ feedback }}</p>
+      }
+
+      @if (showPipeline(challenge) && pipelineStages.length) {
+        <div class="pipeline">
+          <h2>Pipeline flow</h2>
+          @for (stage of pipelineStages; track stage.command; let last = $last) {
+            <div class="pipeline-stage">
+              <p class="pipeline-command">{{ stage.command }}</p>
+              @if (stage.input) {
+                <div class="pipeline-io">
+                  <span class="pipeline-label">input</span>
+                  <pre>{{ stage.input }}</pre>
+                </div>
+              }
+              <div class="pipeline-io">
+                <span class="pipeline-label">output</span>
+                <pre>{{ stage.output || '(empty)' }}</pre>
+              </div>
+            </div>
+            @if (!last) {
+              <p class="pipeline-arrow">↓</p>
+            }
+          }
+        </div>
       }
 
       @if (responsePreview) {
         <pre class="response">{{ responsePreview }}</pre>
       }
 
-      @if (feedback.includes('complete')) {
+      @if (isComplete(feedback)) {
         @if (nextId(challenge.id); as next) {
           <a class="primary next" [routerLink]="['/challenge', next]">Next challenge →</a>
         }

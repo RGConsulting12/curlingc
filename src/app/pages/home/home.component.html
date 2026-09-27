@@ -1,9 +1,9 @@
 @if (activeProfile$ | async; as profile) {
   <section class="hero">
-    <p class="eyebrow">curl command lab</p>
+    <p class="eyebrow">Linux CLI learning lab</p>
     <h1>Curling</h1>
     <p class="lede">
-      {{ totalChallenges }} challenges from first GETs to expert incident response. Progress stays on this device.
+      {{ totalChallenges }} challenges from curl and HTTP debugging to grep, awk, pipelines, and a latency monitoring capstone. Progress stays on this device.
     </p>
     <a class="primary" [routerLink]="['/challenge', profile.progress.currentChallengeId]">
       Continue as {{ profile.displayName }}
@@ -28,9 +28,32 @@
   </section>
 
   <section class="panel">
-    <h2>Levels</h2>
+    <h2>Tracks</h2>
+    <div class="category-row">
+      @for (category of categories; track category) {
+        <button
+          type="button"
+          class="chip"
+          [class.active]="activeCategory === category"
+          (click)="selectCategory(category)"
+        >
+          {{ categoryLabels[category] }}
+          <span class="count">{{ completedInCategory(profile, category) }}/{{ totalInCategory(category) }}</span>
+        </button>
+      }
+    </div>
+  </section>
+
+  @if (isCliCategory(activeCategory)) {
+    <section class="panel reference-panel">
+      <app-redirection-walkthrough />
+    </section>
+  }
+
+  <section class="panel">
+    <h2>{{ categoryLabels[activeCategory] }}</h2>
     <div class="level-grid">
-      @for (level of levels; track level.id) {
+      @for (level of visibleLevels(activeCategory); track level.id) {
         <article class="level-card">
           <div class="level-head">
             <span class="emoji">{{ level.emoji }}</span>

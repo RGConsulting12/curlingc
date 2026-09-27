@@ -1,0 +1,27 @@
+<section class="redirection" [class.compact]="compact">
+  <h2>Redirection on real Linux (read-only)</h2>
+  <p class="intro">{{ intro }}</p>
+
+  @for (example of examples; track example.id) {
+    <article class="example">
+      <h3>{{ example.title }}</h3>
+      <p class="situation">{{ example.situation }}</p>
+
+      <div class="block">
+        <span class="label">Example command</span>
+        <pre class="command">{{ example.command }}</pre>
+      </div>
+
+      <div class="block">
+        <span class="label">What would happen</span>
+        <pre class="flow">{{ example.flow }}</pre>
+        <p class="detail">{{ example.onRealLinux }}</p>
+      </div>
+
+      <div class="block lab">
+        <span class="label">In this lab</span>
+        <p class="detail">{{ example.inThisLab }}</p>
+      </div>
+    </article>
+  }
+</section>

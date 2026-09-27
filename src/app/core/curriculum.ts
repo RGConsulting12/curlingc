@@ -1,5 +1,5 @@
 import { attachHelp } from './challenge-help';
-import { Challenge, Level } from './models';
+import { Challenge, ChallengeDefinition, challengeCategory, challengeKind, Level } from './models';
 import { level01Challenges } from './levels/level-01-get';
 import { level02Challenges } from './levels/level-02-headers';
 import { level03Challenges } from './levels/level-03-query';
@@ -20,6 +20,13 @@ import { level17Challenges } from './levels/level-17-performance';
 import { level18Challenges } from './levels/level-18-debug';
 import { level19Challenges } from './levels/level-19-options';
 import { level20Challenges } from './levels/level-20-boss';
+import { cliFilesChallenges } from './levels/level-cli-files';
+import { cliSearchChallenges } from './levels/level-cli-search';
+import { cliTextChallenges } from './levels/level-cli-text';
+import { cliPipelineChallenges } from './levels/level-cli-pipelines';
+import { cliNetworkChallenges } from './levels/level-cli-network';
+import { cliSystemChallenges } from './levels/level-cli-system';
+import { cliCapstoneChallenges } from './levels/level-cli-capstone';
 
 export const levels: Level[] = [
   {
@@ -28,6 +35,7 @@ export const levels: Level[] = [
     ribbonTitle: 'GET',
     description: 'Your first GET requests — no flags required.',
     emoji: '🥌',
+    category: 'curl',
     challenges: level01Challenges,
   },
   {
@@ -36,6 +44,7 @@ export const levels: Level[] = [
     ribbonTitle: 'Headers',
     description: 'Send and negotiate headers with -H.',
     emoji: '📨',
+    category: 'curl',
     challenges: level02Challenges,
   },
   {
@@ -44,6 +53,7 @@ export const levels: Level[] = [
     ribbonTitle: 'Query',
     description: 'Filter and paginate with URL parameters.',
     emoji: '🔎',
+    category: 'curl',
     challenges: level03Challenges,
   },
   {
@@ -52,6 +62,7 @@ export const levels: Level[] = [
     ribbonTitle: 'Output',
     description: 'Silent mode and HEAD requests with -s and -I.',
     emoji: '🔇',
+    category: 'curl',
     challenges: level04Challenges,
   },
   {
@@ -60,6 +71,7 @@ export const levels: Level[] = [
     ribbonTitle: 'Forms',
     description: 'Submit forms with -d.',
     emoji: '📝',
+    category: 'curl',
     challenges: level05Challenges,
   },
   {
@@ -68,6 +80,7 @@ export const levels: Level[] = [
     ribbonTitle: 'JSON',
     description: 'POST JSON APIs with Content-Type and -d.',
     emoji: '🧾',
+    category: 'curl',
     challenges: level06Challenges,
   },
   {
@@ -76,6 +89,7 @@ export const levels: Level[] = [
     ribbonTitle: 'REST',
     description: 'PUT, PATCH, and DELETE resources.',
     emoji: '🔧',
+    category: 'curl',
     challenges: level07Challenges,
   },
   {
@@ -84,6 +98,7 @@ export const levels: Level[] = [
     ribbonTitle: 'Basic',
     description: 'Authenticate with -u user:pass.',
     emoji: '🔐',
+    category: 'curl',
     challenges: level08Challenges,
   },
   {
@@ -92,6 +107,7 @@ export const levels: Level[] = [
     ribbonTitle: 'Tokens',
     description: 'Bearer tokens and X-API-Key headers.',
     emoji: '🎫',
+    category: 'curl',
     challenges: level09Challenges,
   },
   {
@@ -100,6 +116,7 @@ export const levels: Level[] = [
     ribbonTitle: 'Cookies',
     description: 'Send session state with -b.',
     emoji: '🍪',
+    category: 'curl',
     challenges: level10Challenges,
   },
   {
@@ -108,6 +125,7 @@ export const levels: Level[] = [
     ribbonTitle: 'Redirect',
     description: 'Follow 3xx responses with -L.',
     emoji: '↪️',
+    category: 'curl',
     challenges: level11Challenges,
   },
   {
@@ -116,6 +134,7 @@ export const levels: Level[] = [
     ribbonTitle: 'Metadata',
     description: 'User-Agent and Referer with -A and -e.',
     emoji: '🪪',
+    category: 'curl',
     challenges: level12Challenges,
   },
   {
@@ -124,6 +143,7 @@ export const levels: Level[] = [
     ribbonTitle: 'GET -d',
     description: 'Move POST data into the query string with -G.',
     emoji: '🔗',
+    category: 'curl',
     challenges: level13Challenges,
   },
   {
@@ -132,6 +152,7 @@ export const levels: Level[] = [
     ribbonTitle: 'Upload',
     description: 'Upload files and fields with -F.',
     emoji: '📎',
+    category: 'curl',
     challenges: level14Challenges,
   },
   {
@@ -140,6 +161,7 @@ export const levels: Level[] = [
     ribbonTitle: 'GraphQL',
     description: 'Query and mutate via JSON POST.',
     emoji: '◈',
+    category: 'curl',
     challenges: level15Challenges,
   },
   {
@@ -148,6 +170,7 @@ export const levels: Level[] = [
     ribbonTitle: 'Cache',
     description: 'ETags and byte ranges.',
     emoji: '⚡',
+    category: 'curl',
     challenges: level16Challenges,
   },
   {
@@ -156,6 +179,7 @@ export const levels: Level[] = [
     ribbonTitle: 'Perf',
     description: 'Timeouts, compression, and retries.',
     emoji: '⏱️',
+    category: 'curl',
     challenges: level17Challenges,
   },
   {
@@ -164,6 +188,7 @@ export const levels: Level[] = [
     ribbonTitle: 'Debug',
     description: 'Verbose mode, write-out, and save to file.',
     emoji: '🐛',
+    category: 'curl',
     challenges: level18Challenges,
   },
   {
@@ -172,6 +197,7 @@ export const levels: Level[] = [
     ribbonTitle: 'OPTIONS',
     description: 'Method discovery and proxy flags.',
     emoji: '🛰️',
+    category: 'curl',
     challenges: level19Challenges,
   },
   {
@@ -180,13 +206,87 @@ export const levels: Level[] = [
     ribbonTitle: 'Boss',
     description: 'Multi-step combos mirroring real incident response.',
     emoji: '🏆',
+    category: 'curl',
     challenges: level20Challenges,
+  },
+  {
+    id: 'cli-files',
+    title: 'Files & text',
+    ribbonTitle: 'Files',
+    description: 'cat, head, tail, less, wc, and cut on the latency dataset.',
+    emoji: '📄',
+    category: 'files',
+    challenges: cliFilesChallenges,
+  },
+  {
+    id: 'cli-search',
+    title: 'Search & filesystem',
+    ribbonTitle: 'Search',
+    description: 'grep and find for filtering and locating files.',
+    emoji: '🔍',
+    category: 'search',
+    challenges: cliSearchChallenges,
+  },
+  {
+    id: 'cli-text',
+    title: 'Text processing',
+    ribbonTitle: 'Text',
+    description: 'sort, uniq, sed, and awk for transforming data.',
+    emoji: '✂️',
+    category: 'text',
+    challenges: cliTextChallenges,
+  },
+  {
+    id: 'cli-pipelines',
+    title: 'Unix pipelines',
+    ribbonTitle: 'Pipes',
+    description: 'Compose commands with | — filter, transform, sort.',
+    emoji: '🔗',
+    category: 'pipelines',
+    challenges: cliPipelineChallenges,
+  },
+  {
+    id: 'cli-network',
+    title: 'Network diagnostics',
+    ribbonTitle: 'Network',
+    description: 'ping, curl timing, dig, traceroute, and ICMP vs HTTP.',
+    emoji: '🌐',
+    category: 'networking',
+    challenges: cliNetworkChallenges,
+  },
+  {
+    id: 'cli-system',
+    title: 'System diagnostics',
+    ribbonTitle: 'System',
+    description: 'ps, df, du, free, ssh, and scp on a constrained host.',
+    emoji: '🖥️',
+    category: 'system',
+    challenges: cliSystemChallenges,
+  },
+  {
+    id: 'cli-capstone',
+    title: 'Build a Linux Latency Monitor',
+    ribbonTitle: 'Capstone',
+    description: 'End-to-end monitoring workflow using only stock CLI tools.',
+    emoji: '📡',
+    category: 'challenges',
+    challenges: cliCapstoneChallenges,
   },
 ];
 
 export const allChallenges: Challenge[] = levels
   .flatMap((level) => level.challenges)
-  .map(attachHelp);
+  .map((definition) =>
+    attachHelp({
+      ...definition,
+      kind: challengeKind(definition),
+      category: definition.category ?? challengeCategory(definition),
+    }),
+  );
+
+export function levelsForCategory(category: Challenge['category']): Level[] {
+  return levels.filter((level) => level.category === category);
+}
 
 export function getLevel(id: string): Level {
   return levels.find((level) => level.id === id) ?? levels[0]!;

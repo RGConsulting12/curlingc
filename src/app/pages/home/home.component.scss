@@ -40,10 +40,26 @@ h1 {
   margin-bottom: 1rem;
 }
 
+.reference-panel {
+  padding-top: 0.5rem;
+}
+
 .profile-row {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
+}
+
+.category-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.chip .count {
+  margin-left: 0.35rem;
+  opacity: 0.75;
+  font-size: 0.85em;
 }
 
 .chip {
